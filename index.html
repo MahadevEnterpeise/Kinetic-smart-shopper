@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinetic Smart Shopper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between items-center p-4 selection:bg-cyan-500 selection:text-slate-950">
+    
+    <!-- Top Header -->
+    <header class="w-full max-w-md text-center pt-6 pb-2">
+        <div class="inline-block px-3 py-1 mb-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-wider uppercase">
+            Kinetic Code HQ
+        </div>
+        <h1 class="text-2xl font-black text-white tracking-tight">Smart Shopper</h1>
+        <p class="text-xs text-slate-400 mt-1">Compare unit prices instantly with absolute precision</p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-md bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-6 shadow-2xl shadow-cyan-950/20 my-auto">
+        
+        <!-- Item A Card -->
+        <div id="cardA" class="transition-all duration-300 bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-300">Item A</h2>
+                <span id="badgeA" class="text-[10px] hidden font-semibold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Best Value</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-[11px] font-medium text-slate-400 block mb-1">Price (LKR)</label>
+                    <input type="number" id="priceA" placeholder="350" oninput="calculate()" class="w-full bg-slate-950/60 border border-slate-700/80 rounded-xl p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all">
+                </div>
+                <div>
+                    <label class="text-[11px] font-medium text-slate-400 block mb-1">Quantity / Size</label>
+                    <input type="number" id="qtyA" placeholder="1 or 500" oninput="calculate()" class="w-full bg-slate-950/60 border border-slate-700/80 rounded-xl p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all">
+                </div>
+            </div>
+        </div>
+
+        <!-- Item B Card -->
+        <div id="cardB" class="transition-all duration-300 bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-300">Item B</h2>
+                <span id="badgeB" class="text-[10px] hidden font-semibold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Best Value</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-[11px] font-medium text-slate-400 block mb-1">Price (LKR)</label>
+                    <input type="number" id="priceB" placeholder="650" oninput="calculate()" class="w-full bg-slate-950/60 border border-slate-700/80 rounded-xl p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all">
+                </div>
+                <div>
+                    <label class="text-[11px] font-medium text-slate-400 block mb-1">Quantity / Size</label>
+                    <input type="number" id="qtyB" placeholder="2 or 1000" oninput="calculate()" class="w-full bg-slate-950/60 border border-slate-700/80 rounded-xl p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all">
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Box -->
+        <div id="resultBox" class="hidden bg-cyan-950/30 border border-cyan-500/30 rounded-2xl p-4 text-center mb-4 transition-all animate-fadeIn">
+            <p id="winnerMessage" class="text-sm font-bold text-cyan-300"></p>
+            <p id="unitPriceCompare" class="text-xs text-slate-400 mt-1"></p>
+        </div>
+
+        <!-- Reset Button -->
+        <button onclick="resetForm()" class="w-full bg-slate-800/60 hover:bg-slate-800 text-slate-400 hover:text-white font-medium text-xs py-2.5 rounded-xl border border-slate-700/60 transition-all">
+            Clear Fields
+        </button>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-md text-center py-4 text-xs text-slate-500 space-y-1">
+        <p>Powered by <span class="text-slate-300 font-medium">Kinetic Code HQ</span></p>
+        <a href="https://wa.me/94743682842" target="_blank" class="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
+            <span>💬</span> WhatsApp: +94 74 368 2842
+        </a>
+    </footer>
+
+    <script>
+        function calculate() {
+            let pA = parseFloat(document.getElementById('priceA').value);
+            let qA = parseFloat(document.getElementById('qtyA').value);
+            let pB = parseFloat(document.getElementById('priceB').value);
+            let qB = parseFloat(document.getElementById('qtyB').value);
+
+            let resultBox = document.getElementById('resultBox');
+            let winnerMessage = document.getElementById('winnerMessage');
+            let unitPriceCompare = document.getElementById('unitPriceCompare');
+            
+            let cardA = document.getElementById('cardA');
+            let cardB = document.getElementById('cardB');
+            let badgeA = document.getElementById('badgeA');
+            let badgeB = document.getElementById('badgeB');
+
+            if (!pA || !qA || !pB || !qB || qA <= 0 || qB <= 0) {
+                resultBox.classList.add('hidden');
+                resetStyles();
+                return;
+            }
+
+            let unitA = pA / qA;
+            let unitB = pB / qB;
+
+            resultBox.classList.remove('hidden');
+
+            if (unitA < unitB) {
+                let diff = ((1 - (unitA / unitB)) * 100).toFixed(1);
+                winnerMessage.innerHTML = "🏆 Item A is the better buy!";
+                unitPriceCompare.innerText = `Item A is ${diff}% cheaper per unit (${unitA.toFixed(2)} vs ${unitB.toFixed(2)})`;
+                
+                // Highlight Card A
+                cardA.className = "transition-all duration-300 bg-cyan-950/20 border border-cyan-500/60 rounded-2xl p-4 mb-4 shadow-lg shadow-cyan-950/40";
+                badgeA.classList.remove('hidden');
+                // Reset Card B
+                cardB.className = "transition-all duration-300 bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 mb-6";
+                badgeB.classList.add('hidden');
+
+            } else if (unitB < unitA) {
+                let diff = ((1 - (unitB / unitA)) * 100).toFixed(1);
+                winnerMessage.innerHTML = "🏆 Item B is the better buy!";
+                unitPriceCompare.innerText = `Item B is ${diff}% cheaper per unit (${unitB.toFixed(2)} vs ${unitA.toFixed(2)})`;
+                
+                // Highlight Card B
+                cardB.className = "transition-all duration-300 bg-cyan-950/20 border border-cyan-500/60 rounded-2xl p-4 mb-6 shadow-lg shadow-cyan-950/40";
+                badgeB.classList.remove('hidden');
+                // Reset Card A
+                cardA.className = "transition-all duration-300 bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 mb-4";
+                badgeA.classList.add('hidden');
+
+            } else {
+                winnerMessage.innerText = "⚖️ Both items offer exact equal value!";
+                unitPriceCompare.innerText = `Equal unit price: ${unitA.toFixed(2)} per unit`;
+                resetStyles();
+            }
+        }
+
+        function resetStyles() {
+            document.getElementById('cardA').className = "transition-all duration-300 bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 mb-4";
+            document.getElementById('cardB').className = "transition-all duration-300 bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 mb-6";
+            document.getElementById('badgeA').classList.add('hidden');
+            document.getElementById('badgeB').classList.add('hidden');
+        }
+
+        function resetForm() {
+            document.getElementById('priceA').value = '';
+            document.getElementById('qtyA').value = '';
+            document.getElementById('priceB').value = '';
+            document.getElementById('qtyB').value = '';
+            document.getElementById('resultBox').classList.add('hidden');
+            resetStyles();
+        }
+    </script>
+</body>
+</html>
